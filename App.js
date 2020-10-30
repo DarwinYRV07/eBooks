@@ -1,11 +1,6 @@
-
 import React from 'react';
-
+import EBooksListScreens from "./src/screens/EBooksListScreens"
 
 export default function App() {
-  return (
-    <>
-      <text>Hola que tal!!</text>
-    </>
-  );
+  return <EBooksListScreens></EBooksListScreens>;
   }
