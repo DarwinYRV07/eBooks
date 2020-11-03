@@ -1,10 +1,13 @@
+
 import axios from "axios";
+
 import getEnvVars from "../../enviroment";
 
-const {api}= getEnvVars();
+const {url}= getEnvVars();
 
 const instance = axios.create ({
-    baseURL:process.env.api
+
+    baseURL: url
 });
 
 export default instance;

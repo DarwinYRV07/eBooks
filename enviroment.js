@@ -1,9 +1,9 @@
-import Constants from "expo-Constants";
+
+import Constants from 'expo-constants';
 
 const ENV = {
     dev: {
-        api: "https://www.etnassoft.com/api/v1/get/",
-        APIKEY : "?id=505"
+        url: "https://www.etnassoft.com/api/v1/",
     },
 };
 
