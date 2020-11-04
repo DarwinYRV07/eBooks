@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {StyleSheet,Text, Image, FlatList } from 'react-native';
-import {Input,Container,Item, H1, Header, Button, Icon, View, Spinner, Card,CardItem} from "native-base";
+import {Input,Container,Item, H1, Header, Button, Icon, View, Spinner, Card,CardItem, Body} from "native-base";
 import backend from "../api/backend";
+import getEnvVars from "../../enviroment";
+
+const {apiCoverUrl,apiCoverSize} = getEnvVars;
 
 function EBooksListScreens() {
 
@@ -15,10 +18,9 @@ function EBooksListScreens() {
         try {
 
             const response = await backend.get(`get/?category=libros_programacion&criteria=most_viewed`);
+            
             setBooks(response.data);
-            console.log(books.filter(function (book) {
-                return book.title == "POO y MVC en PHP";
-            }));
+            console.log(books);
 
         }
 
@@ -30,7 +32,7 @@ function EBooksListScreens() {
     useEffect(() => {
 
         getBooks();
-    });
+    },[]);
 
     if (!books) {
         return (
@@ -51,24 +53,30 @@ function EBooksListScreens() {
                 </Button>
             </Item>
             <Image source={require("../../assets/eBooks.png")}
-                style={styles.eBooksImagen} />
+            style={styles.eBooksImagen} />
             <H1 style={{marginTop:20}}>Libros Mas Populares en Programación</H1>
-            <FlatList   
-                        
+            <FlatList      
                 ListEmptyComponent={<Text>No hay Libros disponibles!</Text>}
                 data={books}
                 key={({item}) => item.ID} 
-                renderItem={({item}) =>            
+                renderItem={({item}) => {       
+                return(
                 <View>
                     <Card>
-                        <CardItem>
-                            <Image source={item.cover} alt={item.cover} style={styles.eBooksImagen}></Image>
+                      <CardItem>
+                          <Body>
+                            {console.log(`${apiCoverUrl}${item.cover}`)}
+                            <Image source = {{uri: `${apiCoverUrl}${item.cover}`}} style={styles.eBooksImagen}></Image>
                             <Text>{item.title}</Text>
+                          </Body>
                         </CardItem>
                     </Card>
                 </View>
-                }
+                )
+                }} 
+
             />
+
         </Container>
     )
 }
@@ -83,7 +91,7 @@ const styles = StyleSheet.create({
     eBooksImagen:{
         width: "100%",
         height: 120,
-        textAlign: "left",
+        resizeMode: "center",
     },
     eBooksHeader:{
         backgroundColor:  "#835858",
@@ -91,7 +99,6 @@ const styles = StyleSheet.create({
     eBooksButton:{
         backgroundColor: "black",
     },
-
 });
 
 
