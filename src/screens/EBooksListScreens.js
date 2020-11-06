@@ -1,35 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import {StyleSheet,Text, Image, FlatList} from 'react-native';
-import {Input,Container,Item, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2} from "native-base";
 import backend from "../api/backend";
 import getEnvVars from "../../enviroment";
+import {Input,Container,Item, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2} from "native-base";
+
 
 const {apiCoverUrl,apiCoverSize} = getEnvVars;
 
-function EBooksListScreens() {
-
-
+function EBooksListScreens({navigation}) {
     //Control de los estados de los libros
     const [books, setBooks] = useState(null);
     const [error, setError] = useState(false);
+    const [search, setSearch] = useState("");
 
     const getBooks = async () => {
-
         try {
-
-            const response = await backend.get(`get/?category=arte-bellas-artes`);
+            const response = await backend.get(`get/?criteria=most_viewed`);
             setBooks(response.data);
             console.log(books);
-
-        }
-
-        catch (error) {
+        }catch (error) {
             setError(true);
         };
     };
 
     useEffect(() => {
-
         getBooks();
     },[]);
 
@@ -46,8 +40,8 @@ function EBooksListScreens() {
         <Container style={styles.container}>
             <Header style={styles.eBooksHeader} searchBar >
                 <Item style={styles.estiloBuscador}>
-                    <Input  placeholder="Buscar" />
-                    <Button style={styles.imagenLupa} icon><Icon name="search"color="whirte" /></Button>
+                    <Input  placeholder="Buscar" value={search} onChangeText={setSearch} />
+                    <Button onPress={() => navigation.navigate('eBooksSearch', {search}) } style={styles.imagenLupa} icon><Icon name="search"color="whirte" /></Button>
                 </Item>
             </Header>
             <Image source={require("../../assets/LogoeBooks.png")}
@@ -56,7 +50,7 @@ function EBooksListScreens() {
                 <View style={styles.tituloPresentacion}>
                     <Item >
                         <H2 style={styles.titulos}> Más Vistos</H2>
-                        <Button style={styles.iconoMostrar} ><Icon name="book"color="whirte" /></Button>
+                        <Button  style={styles.iconoMostrar} ><Icon name="book"color="whirte" /></Button>
                     </Item>  
                 </View>
                 
@@ -70,14 +64,14 @@ function EBooksListScreens() {
                         renderItem={({item}) => {
                         return (
                             <View>
-                                <Card style={styles.prueba2} >
-                                <CardItem>
-                                    <Body> 
-                                        <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros}></Image>
-                                        {/*No borrar las imagenes desaparecen*/}
-                                        <Text >                                             </Text>
-                                    </Body>
-                                </CardItem>
+                                <Card >
+                                    <CardItem>
+                                        <Body> 
+                                            <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros}></Image>
+                                            {/*No borrar las imagenes desaparecen*/}
+                                             <Text >                                             </Text>
+                                        </Body>
+                                     </CardItem>
                             </Card>
                             </View>
                         )   
@@ -111,6 +105,8 @@ const styles = StyleSheet.create({
         borderBottomRightRadius:20,
     },
     imagenLupa:{
+        position:"relative",
+        left:5,
         borderBottomRightRadius:20,
         borderBottomLeftRadius: 20,
         borderTopRightRadius:20,
@@ -159,22 +155,23 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
         borderTopRightRadius:20,
         borderTopLeftRadius: 20,
-        alignContent:"flex-end",
         backgroundColor: "#835858",
-        left:200,
-        width:"12%",
-        height:28,
+        left:250,
+        width:"13%",
+        height:33,
+        position:"relative",
     },
     iconoMostrar1:{
         borderBottomRightRadius:20,
         borderBottomLeftRadius: 20,
         borderTopRightRadius:20,
         borderTopLeftRadius: 20,
-        alignContent:"flex-end",
         backgroundColor: "#835858",
-        left:150,
-        width:"12%",
-        height:28,
+        justifyContent:"center",
+        left:190,
+        width:"13%",
+        height:34,
+        position:"relative",
     },
     ubicacion:{
         backgroundColor:"blue",
@@ -209,14 +206,6 @@ const styles = StyleSheet.create({
         borderTopRightRadius:20,
         borderTopLeftRadius: 20,
     },
-    prueba2:{
-        borderBottomRightRadius:20,
-        borderBottomLeftRadius: 20,
-        borderTopRightRadius:20,
-        borderTopLeftRadius: 20,
-    }
-    
-    
 });
 
 

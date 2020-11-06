@@ -1,6 +1,18 @@
 import React from 'react';
-import EBooksListScreens from "./src/screens/EBooksListScreens"
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import EBooksListScreens from "./src/screens/EBooksListScreens";
+import EBooksSearchResult from "./src/screens/EBooksSearchResult";
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  return <EBooksListScreens></EBooksListScreens>;
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="eBooksList">
+        <Stack.Screen name="eBooksList" component={EBooksListScreens} />
+        <Stack.Screen name="eBooksSearch" component={EBooksSearchResult} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
   }
