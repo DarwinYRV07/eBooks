@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {StyleSheet,Text, Image, FlatList } from 'react-native';
-import {Input,Container,Item, H4, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2} from "native-base";
+import {StyleSheet,Text, Image, FlatList} from 'react-native';
+import {Input,Container,Item, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2} from "native-base";
 import backend from "../api/backend";
 import getEnvVars from "../../enviroment";
 
@@ -17,7 +17,7 @@ function EBooksListScreens() {
 
         try {
 
-            const response = await backend.get(`get/?category=libros_programacion&criteria=most_viewed`);
+            const response = await backend.get(`get/?category=arte-bellas-artes`);
             setBooks(response.data);
             console.log(books);
 
@@ -52,7 +52,7 @@ function EBooksListScreens() {
             </Header>
             <Image source={require("../../assets/LogoeBooks.png")}
             style={styles.eBooksLogo} />
-            <View style={styles.centrarContenido}>
+            <View  style={styles.centrarContenido}>
                 <View style={styles.tituloPresentacion}>
                     <Item >
                         <H2 style={styles.titulos}> Más Vistos</H2>
@@ -69,12 +69,13 @@ function EBooksListScreens() {
                         style={styles.tamañoTarjtas}
                         renderItem={({item}) => {
                         return (
-                            <View >
-                                <Card >
-                                <CardItem >
-                                    <Body > 
+                            <View>
+                                <Card style={styles.prueba2} >
+                                <CardItem>
+                                    <Body> 
                                         <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros}></Image>
-                                        <Text style={styles.tituloLibros}>{item.title}</Text>
+                                        {/*No borrar las imagenes desaparecen*/}
+                                        <Text >                                             </Text>
                                     </Body>
                                 </CardItem>
                             </Card>
@@ -90,7 +91,7 @@ function EBooksListScreens() {
                         <Button style={styles.iconoMostrar1} ><Icon name="book"color="whirte" /></Button>
                     </Item>  
                 </View>
-            </View>
+            </View >
         </Container>
     )
 }
@@ -176,13 +177,7 @@ const styles = StyleSheet.create({
         height:28,
     },
     ubicacion:{
-        backgroundColor:"red",
-        borderBottomRightRadius:20,
-        borderBottomLeftRadius: 20,
-        borderTopRightRadius:20,
-        borderTopLeftRadius: 20,
-        width:"40%",
-        height:100,
+        backgroundColor:"blue",
     },
     centrarContenido:{
         height:100,
@@ -199,19 +194,28 @@ const styles = StyleSheet.create({
     },
     portadaLibros:{
         width:"100%",
-        height: 220,
+        height: 210,
         resizeMode:"stretch",
     },
     tituloLibros:{
-
+        
     },
     tamañoTarjtas:{
         top:10,
-        left:10,
-        right:10,
-        width:"40%",
+        width:"100%",
         height:320,
+        borderBottomRightRadius:20,
+        borderBottomLeftRadius: 20,
+        borderTopRightRadius:20,
+        borderTopLeftRadius: 20,
+    },
+    prueba2:{
+        borderBottomRightRadius:20,
+        borderBottomLeftRadius: 20,
+        borderTopRightRadius:20,
+        borderTopLeftRadius: 20,
     }
+    
     
 });
 
