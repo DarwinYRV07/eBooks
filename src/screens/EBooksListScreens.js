@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {StyleSheet,Text, Image, FlatList } from 'react-native';
-import {Input,Container,Item, H1, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2} from "native-base";
+import {Input,Container,Item, H4, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2} from "native-base";
 import backend from "../api/backend";
 import getEnvVars from "../../enviroment";
-import { FontAwesome5 } from '@expo/vector-icons';
 
 const {apiCoverUrl,apiCoverSize} = getEnvVars;
 
@@ -66,17 +65,20 @@ function EBooksListScreens() {
                         ListEmptyComponent={<Text>No hay Libros disponibles!</Text>}
                         data={books}
                         key={({item}) => item.ID}
-                        style={styles.librosEnFila}
+                        horizontal={true}
+                        style={styles.tamañoTarjtas}
                         renderItem={({item}) => {
                         return (
-                            <Card>
-                                <CardItem>
-                                    <Body>
-                                        <Image source={{ uri : `${item.cover}`}} style={styles.eBooksImage}></Image>
-                                        <Text>{item.title}</Text>
+                            <View >
+                                <Card >
+                                <CardItem >
+                                    <Body > 
+                                        <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros}></Image>
+                                        <Text style={styles.tituloLibros}>{item.title}</Text>
                                     </Body>
                                 </CardItem>
                             </Card>
+                            </View>
                         )   
                         }}
                         keyExtractor={(items,index) => index.toString()}
@@ -187,27 +189,28 @@ const styles = StyleSheet.create({
         width:"90%",
     },
     contenidoLibro:{
-        flexDirection:"row",
         top:20,
         left:15,
         width:"100%",
         backgroundColor:"#835858",
-        height:/*230*/230,
+        height:290,
         borderBottomRightRadius:20,
         borderTopLeftRadius: 20,
     },
-    eBooksImagen:{
-        width: "60%",
-        height: 70,
-        resizeMode: "center",
+    portadaLibros:{
+        width:"100%",
+        height: 220,
+        resizeMode:"stretch",
     },
-    librosEnFila:{
-        flexDirection:"row",
+    tituloLibros:{
+
     },
-    ordernarporfa:{
-        backgroundColor:"red",
-        height:200,
-        width:"20%",
+    tamañoTarjtas:{
+        top:10,
+        left:10,
+        right:10,
+        width:"40%",
+        height:320,
     }
     
 });
