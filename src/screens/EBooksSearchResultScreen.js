@@ -4,7 +4,7 @@ import {FlatList, Text, Image, StyleSheet} from 'react-native';
 import {Container,H1,View,Spinner,Card,CardItem,Body} from "native-base";
 
 
-const EBooksSearchResult = ({route, navigation}) =>{
+const EBooksSearchResultScreen = ({route, navigation}) =>{
     
     const { search } = route.params;
     const [books, setBooks] = useState(null);
@@ -73,4 +73,4 @@ const styles =StyleSheet.create({
     },
 });
 
-export default EBooksSearchResult;
+export default EBooksSearchResultScreen;
