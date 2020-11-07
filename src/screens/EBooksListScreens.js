@@ -44,6 +44,7 @@ function EBooksListScreens({navigation}) {
                     <Button onPress={() => navigation.navigate('eBooksSearch', {search}) } style={styles.imagenLupa} icon><Icon name="search"color="whirte" /></Button>
                 </Item>
             </Header>
+            
             <Image source={require("../../assets/LogoeBooks.png")}
             style={styles.eBooksLogo} />
             <View  style={styles.centrarContenido}>
