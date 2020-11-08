@@ -12,6 +12,7 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
 
     const getSearchbooks = async () => {
         try {
+            
             const response = await backend.get(`get/?book_title="${search}"`);
             setBooks(response.data);
             console.log(books);
@@ -52,7 +53,6 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
                                              <Text>{item.title}</Text>
                                              <Text>{item.author} </Text>
                                              <Text>{item.publisher_date} </Text>
-                                             <Text>{item.content_short}</Text>
                                         </Body>
                                      </CardItem>
                             </Card>
@@ -67,10 +67,11 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
 
 const styles =StyleSheet.create({
     portadaLibros:{
-        width:"100%",
+        width:"50%",
         height: 210,
         resizeMode:"stretch",
     },
+    
 });
 
 export default EBooksSearchResultScreen;

@@ -14,6 +14,7 @@ function EBooksListScreens({navigation}) {
     const [books2,setBooks2] = useState(null)
     const [error, setError] = useState(false);
     const [search, setSearch] = useState("");
+    const [id,setId]=useState("")
 
     const getBooks = async () => {
         try {
