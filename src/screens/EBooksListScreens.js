@@ -118,15 +118,17 @@ function EBooksListScreens({navigation}) {
                             renderItem={({item}) => {
                             return (
                                 <View>
-                                    <Card >
-                                        <CardItem>
-                                            <Body> 
-                                                <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros}></Image>
-                                                {/*No borrar las imagenes desaparecen*/}
-                                                <Text >                                             </Text>
-                                            </Body>
-                                        </CardItem>
-                                    </Card>
+                                    <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID})}>
+                                        <Card>
+                                            <CardItem>
+                                                <Body> 
+                                                    <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros}></Image>
+                                                    {/*No borrar las imagenes desaparecen*/}
+                                                    <Text >                                             </Text>
+                                                </Body>
+                                            </CardItem>
+                                        </Card>
+                                    </TouchableOpacity>
                                 </View>
                             )   
                             }}

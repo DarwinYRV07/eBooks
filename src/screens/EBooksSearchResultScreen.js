@@ -2,6 +2,7 @@ import React, { useEffect,useState } from "react";
 import backend from "../api/backend";
 import {FlatList, Text, Image, StyleSheet} from 'react-native';
 import {Container,H1,View,Spinner,Card,CardItem,Body} from "native-base";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const EBooksSearchResultScreen = ({route, navigation}) =>{
@@ -12,7 +13,6 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
 
     const getSearchbooks = async () => {
         try {
-            
             const response = await backend.get(`get/?book_title="${search}"`);
             setBooks(response.data);
             console.log(books);
@@ -45,17 +45,20 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
                         renderItem={({item}) => {
                         return (
                             <View>
-                                <Card >
-                                    <CardItem>
-                                        <Body> 
-                                            <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros}></Image>
-                                            {/*No borrar las imagenes desaparecen*/}
-                                             <Text>{item.title}</Text>
-                                             <Text>{item.author} </Text>
-                                             <Text>{item.publisher_date} </Text>
-                                        </Body>
-                                     </CardItem>
-                            </Card>
+                                <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID})}>
+                                    <Card >
+                                        <CardItem>
+                                            <Body> 
+                                                <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros}></Image>
+                                                {/*No borrar las imagenes desaparecen*/}
+                                                <Text>{item.title}</Text>
+                                                <Text>{item.author} </Text>
+                                                <Text>{item.publisher_date} </Text>
+                                            </Body>
+                                        </CardItem>
+                                    </Card>
+                                </TouchableOpacity>
+                                
                             </View>
                         )   
                         }}
