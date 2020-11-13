@@ -3,6 +3,7 @@ import backend from "../api/backend";
 import {FlatList, Text, Image, StyleSheet} from 'react-native';
 import {Container,H1,View,Spinner,Card,CardItem,Body} from "native-base";
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const EBooksSearchResultScreen = ({route, navigation}) =>{
@@ -36,7 +37,6 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
 
     return(
         <Container>
-            <H1>Resultados de la Busqueda: {search}</H1>
             <FlatList
                         ListEmptyComponent={<Text>No hay Libros disponibles!</Text>}
                         data={books}
@@ -47,18 +47,30 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
                             <View>
                                 <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID})}>
                                     <Card >
-                                        <CardItem>
-                                            <Body> 
-                                                <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros}></Image>
+                                        <CardItem >
+                                        <LinearGradient
+                                            // Background Linear Gradient
+                                            colors={['#fff0f0', '#ebd4d4', '#835858']}
+                                            start={{ x: 0.1, y: 0 }}
+                                            end={{ x: 1, y: 0.001 }}
+                                            style={{
+                                            position: 'absolute',
+                                            left: 0,
+                                            right: 0,
+                                            top: 0,
+                                            height: 800,
+                                            }}
+                                        />      
+                                        <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros}></Image>
                                                 {/*No borrar las imagenes desaparecen*/}
-                                                <Text>{item.title}</Text>
-                                                <Text>{item.author} </Text>
-                                                <Text>{item.publisher_date} </Text>
+                                            <Body style={{backgroundColor:"transparent"}}> 
+                                                <Text style={styles.estiloTextoTitulo}>{item.title}</Text>
+                                                <Text style={styles.estiloTextoAutor}>Autor: {item.author} </Text>
+                                                <Text style={styles.estiloTextoFecha}>Fecha de Edicion: {item.publisher_date} </Text>
                                             </Body>
                                         </CardItem>
                                     </Card>
                                 </TouchableOpacity>
-                                
                             </View>
                         )   
                         }}
@@ -74,7 +86,24 @@ const styles =StyleSheet.create({
         height: 210,
         resizeMode:"stretch",
     },
-    
+    estiloTextoTitulo:{
+        textAlign:"center",
+        fontSize:18,
+        top:30,
+        left:15,
+    },
+    estiloTextoAutor:{
+        textAlign:"center",
+        top:40,
+        left:22,
+        fontSize:15
+    },
+    estiloTextoFecha:{
+        textAlign:"center",
+        top:45,
+        left:22,
+        fontSize:15
+    }
 });
 
 export default EBooksSearchResultScreen;

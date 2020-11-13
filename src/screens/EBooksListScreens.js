@@ -4,6 +4,8 @@ import backend from "../api/backend";
 import getEnvVars from "../../enviroment";
 import {Input,Container,Item, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2} from "native-base";
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import {LinearGradient,x,y} from 'expo-linear-gradient';
+import HTML from 'react-native-render-html';
 
 
 const {apiCoverUrl,apiCoverSize} = getEnvVars;
@@ -18,7 +20,7 @@ function EBooksListScreens({navigation}) {
 
     const getBooks = async () => {
         try {
-            const response = await backend.get(`get/?criteria=most_viewed`);
+            const response = await backend.get(`get/?category=arte&criteria=most_viewed`);
             setBooks(response.data);
             console.log(books);
         }catch (error) {
@@ -57,6 +59,19 @@ function EBooksListScreens({navigation}) {
 
     return (
         <Container style={styles.container}>
+                    <LinearGradient
+                                // Background Linear Gradient
+                                colors={['#fff0f0', '#ebd4d4', '#835858']}
+                                start={{ x: 0.1, y: 0 }}
+                                end={{ x: 1, y: 0.001 }}
+                                style={{
+                                position: 'absolute',
+                                left: 0,
+                                right: 0,
+                                top: 0,
+                                height: 800,
+                                }}
+                                />          
             <Header style={styles.eBooksHeader} searchBar >
                 <Item style={styles.estiloBuscador}>
                     <Input  placeholder="Buscar" value={search} onChangeText={setSearch} />
@@ -136,10 +151,10 @@ function EBooksListScreens({navigation}) {
                         />
                     </View>
                 </View >
-                <View style={styles.tituloPresentacion1}>
+                <View style={styles.tituloPresentacion2}>
                         <Item >
                             <H2 style={styles.titulos}>Otros Contenidos </H2>
-                            <Button style={styles.iconoMostrar1} ><Icon name="book"color="whirte" /></Button>
+                            <Button style={styles.iconoMostrar2} ><Icon name="book"color="whirte" /></Button>
                         </Item>  
                     </View>
             </ScrollView>
@@ -151,7 +166,7 @@ const styles = StyleSheet.create({
     container:{
         top:0,
         height: 100,
-        backgroundColor: "#fff0f0",   
+        //backgroundColor: "#fff0f0",   
     },
     eBooksHeader:{
         backgroundColor:  "#835858",
@@ -174,7 +189,7 @@ const styles = StyleSheet.create({
     tituloPresentacion:{
         top:5,
         right:10,
-        left:10,
+        left:19,
         width:"100%",
         backgroundColor:"white",
         borderRadius:20,
@@ -182,8 +197,19 @@ const styles = StyleSheet.create({
     tituloPresentacion1:{
         top:50,
         right:10,
-        left:10,
+        left:19,
         width:"100%",
+        backgroundColor:"white",
+        borderLeftColor: "black",
+        borderTopColor:"black",
+        borderBottomColor:"black",
+        borderRadius:20,
+    },
+    tituloPresentacion2:{
+        top:-250,
+        right:10,
+        left:19,
+        width:"90%",
         backgroundColor:"white",
         borderLeftColor: "black",
         borderTopColor:"black",
@@ -197,7 +223,7 @@ const styles = StyleSheet.create({
     iconoMostrar:{
         borderRadius:20,
         backgroundColor: "#835858",
-        left:200,
+        left:20,
         width:"15%",
         height:35,
         position:"relative",
@@ -210,6 +236,16 @@ const styles = StyleSheet.create({
         width:"15%",
         height:35,
         position:"relative",
+    },
+    iconoMostrar2:{
+        borderRadius:20,
+        backgroundColor: "#835858",
+        justifyContent:"center",
+        left:150,
+        width:"15%",
+        height:35,
+        position:"relative",
+
     },
     ubicacion:{
         backgroundColor:"blue",
