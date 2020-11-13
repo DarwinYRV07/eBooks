@@ -4,8 +4,7 @@ import backend from "../api/backend";
 import getEnvVars from "../../enviroment";
 import {Input,Container,Item, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2} from "native-base";
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {LinearGradient,x,y} from 'expo-linear-gradient';
-import HTML from 'react-native-render-html';
+import {LinearGradient} from 'expo-linear-gradient';
 
 
 const {apiCoverUrl,apiCoverSize} = getEnvVars;
@@ -120,7 +119,7 @@ function EBooksListScreens({navigation}) {
                     <View style={styles.tituloPresentacion1}>
                         <Item >
                             <H2 style={styles.titulos}>Otros Contenidos </H2>
-                            <Button style={styles.iconoMostrar1} ><Icon name="book"color="whirte" /></Button>
+                            <Button style={styles.iconoMostrar1}><Icon name="book"color="whirte" /></Button>
                         </Item>  
                     </View>
                     <View style={styles.contenidoLibro1}>
@@ -153,10 +152,22 @@ function EBooksListScreens({navigation}) {
                 </View >
                 <View style={styles.tituloPresentacion2}>
                         <Item >
-                            <H2 style={styles.titulos}>Otros Contenidos </H2>
-                            <Button style={styles.iconoMostrar2} ><Icon name="book"color="whirte" /></Button>
+                            <H2 style={styles.titulos2}>Tenemos algunas categorias! </H2>
                         </Item>  
+                </View>
+
+                <View style={styles.estiloContenedor}>
+                    <View style={styles.estiloCategoria}>
+                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Cine</Text></Button>
+                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Programacion</Text></Button>
+                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Base de dato</Text></Button>
                     </View>
+                    <View style={styles.estiloCategoria}>
+                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Artes</Text></Button>
+                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Comic</Text></Button>
+                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Desarrollo Web</Text></Button>
+                    </View>
+                </View>
             </ScrollView>
         </Container>
     )
@@ -210,16 +221,20 @@ const styles = StyleSheet.create({
         right:10,
         left:19,
         width:"90%",
-        backgroundColor:"white",
-        borderLeftColor: "black",
-        borderTopColor:"black",
-        borderBottomColor:"black",
         borderRadius:20,
+        backgroundColor:"white",
     },
     titulos:{
         fontSize:18,
         left:10,
     },
+
+    titulos2:{
+        fontSize:19,
+        left:50,
+        
+    },
+
     iconoMostrar:{
         borderRadius:20,
         backgroundColor: "#835858",
@@ -278,14 +293,36 @@ const styles = StyleSheet.create({
         height: 210,
         resizeMode:"stretch",
     },
-    tituloLibros:{
-        
-    },
     tamañoTarjtas:{
         top:10,
         width:"100%",
         height:320,
         borderRadius:20,
+    },
+    estiloContenedor:{
+        backgroundColor:"transparent",
+        flexDirection:"row",
+        top: -200,
+    },
+    estiloCategoria:{
+        backgroundColor:"transparent",
+        margin:10,width:"50%",
+        flexDirection:"column",
+        alignItems: 'center',
+        height:"auto",
+        flex:1,
+        justifyContent:"center",
+    },
+    estiloBotonCategoria:{
+        backgroundColor:"white",
+        borderRadius:12,
+        borderWidth:2,
+        borderColor:"black",
+        margin:10,
+        width:"90%",
+        alignItems: 'center',
+        flex:1,
+        justifyContent:"center",
     },
 });
 
