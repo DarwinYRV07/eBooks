@@ -5,6 +5,7 @@ import getEnvVars from "../../enviroment";
 import {Input,Container,Item, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2,Select} from "native-base";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {LinearGradient} from 'expo-linear-gradient';
+import * as Font from 'expo-font';
 
 
 const {apiCoverUrl,apiCoverSize} = getEnvVars;
@@ -14,9 +15,26 @@ function EBooksListScreens({navigation}) {
     const [books, setBooks] = useState(null);
     const [books2,setBooks2] = useState(null)
     const [error, setError] = useState(false);
+    const [fontsLoaded,setFontsLoaded] = useState(false);
     const [search, setSearch] = useState("");
-    const [categorie, setCategorie] = useState("");
+
     const [id,setId]=useState("");
+
+    useEffect(() => {
+        if(!fontsLoaded){
+          LoadFonts();
+        }
+      });
+    
+        const LoadFonts = async() => {
+          await Font.loadAsync({
+            "Overlock-Black": require(`../../assets/fonts/Overlock-Black.ttf`,),
+            "Overlock-Italic": require(`../../assets/fonts/Overlock-Italic.ttf`),
+          });
+    
+          setFontsLoaded(true);
+        }
+  
 
     const getBooks = async () => {
         try {
@@ -73,7 +91,7 @@ function EBooksListScreens({navigation}) {
                                 />          
             <Header style={styles.eBooksHeader} searchBar >
                 <Item style={styles.estiloBuscador}>
-                    <Input name="cine" name={setSearch} placeholder="Buscar" value={search} /*onChangeText={setSearch}*/ />
+                    <Input placeholder="Buscar" value={search} onChangeText={setSearch} />
                     <Button onPress={() => navigation.navigate('eBooksSearch', {search})} style={styles.imagenLupa} icon><Icon name="search"color="whirte" /></Button>
                 </Item>
             </Header>
@@ -90,6 +108,20 @@ function EBooksListScreens({navigation}) {
                     </View>
                 
                     <View style={styles.contenidoLibro}>
+                    <LinearGradient
+                        // Background Linear Gradient
+                        colors={['#000000', '#835858']}
+                        start={{ x: 1.5, y: 0 }}
+                        end={{ x: 0.1, y: 1 }}
+                        style={{
+                        position: 'absolute',                                        
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height:300,
+                        borderRadius:15,
+                        }}
+                    />   
                         <FlatList
                             ListEmptyComponent={<Text>No hay Libros disponibles!</Text>}
                             data={books}
@@ -122,7 +154,21 @@ function EBooksListScreens({navigation}) {
                             <Button style={styles.iconoMostrar1}><Icon name="book"color="whirte" /></Button>
                         </Item>  
                     </View>
-                    <View style={styles.contenidoLibro1}>
+                    <View style={styles.contenidoLibro1}>   
+                    <LinearGradient
+                        // Background Linear Gradient
+                        colors={['#000000','#835858']}
+                        start={{ x: 1.5, y: 0 }}
+                        end={{ x: 0.1, y: 1 }}
+                        style={{
+                        position: 'absolute',                                        
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height:300,
+                        borderRadius:15,
+                        }}
+                    />  
                         <FlatList
                             ListEmptyComponent={<Text>No hay Libros disponibles!</Text>}
                             data={books2}
@@ -159,14 +205,14 @@ function EBooksListScreens({navigation}) {
 
                 <View style={styles.estiloContenedor}>
                     <View style={styles.estiloCategoria}>
-                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "cine"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Cine</Text></Button>
-                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "Programacion"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Programacion</Text></Button>
-                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "bases_de_datos"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Base de dato</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "cine"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18,fontFamily:"Overlock-Black",}}>Cine</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "Programacion"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18,fontFamily:"Overlock-Black",}}>Programacion</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "bases_de_datos"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18,fontFamily:"Overlock-Black",}}>Base de dato</Text></Button>
                     </View>
                     <View style={styles.estiloCategoria}>
-                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "arte-bellas-artes"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Artes</Text></Button>
-                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "Comic"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Comic</Text></Button>
-                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "desarrollo_web"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Desarrollo Web</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "arte-bellas-artes"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18,fontFamily:"Overlock-Black",}}>Artes</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "Comic"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18,fontFamily:"Overlock-Black",}}>Comic</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "desarrollo_web"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18,fontFamily:"Overlock-Black",}}>Desarrollo Web</Text></Button>
                     </View>
                 </View>
             </ScrollView>
@@ -233,12 +279,13 @@ const styles = StyleSheet.create({
     titulos:{
         fontSize:18,
         left:10,
+        fontFamily:"Overlock-Black",
     },
 
     titulos2:{
         fontSize:19,
         left:50,
-        
+        fontFamily:"Overlock-Black", 
     },
 
     iconoMostrar:{
@@ -271,7 +318,6 @@ const styles = StyleSheet.create({
         top:20,
         left:15,
         width:"100%",
-        backgroundColor:"#835858",
         height:290,
         borderBottomRightRadius:20,
         borderTopLeftRadius: 20,
@@ -296,6 +342,7 @@ const styles = StyleSheet.create({
         width:"100%",
         height:320,
         borderRadius:20,
+
     },
     estiloContenedor:{
         backgroundColor:"transparent",

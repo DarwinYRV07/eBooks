@@ -4,13 +4,29 @@ import {FlatList, Text, Image, StyleSheet} from 'react-native';
 import {Container,View,Spinner,Card,CardItem,Body} from "native-base";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import * as Font from 'expo-font';
 
 const EBooksSearchResultScreen = ({route, navigation}) =>{
     
     const { search } = route.params;
     const [books, setBooks] = useState(null);
     const [error, setError] = useState(false);
+    const [fontsLoaded,setFontsLoaded] = useState(false);
+
+    useEffect(() => {
+        if(!fontsLoaded){
+          LoadFonts();
+        }
+      });
+    
+        const LoadFonts = async() => {
+          await Font.loadAsync({
+            "Overlock-Black": require(`../../assets/fonts/Overlock-Black.ttf`,),
+            "Overlock-Italic": require(`../../assets/fonts/Overlock-Italic.ttf`),
+          });
+    
+          setFontsLoaded(true);
+        }
 
     const getSearchbooks = async () => {
         try {
@@ -90,18 +106,21 @@ const styles =StyleSheet.create({
         fontSize:18,
         top:30,
         left:15,
+        fontFamily:"Overlock-Black",
     },
     estiloTextoAutor:{
         textAlign:"center",
         top:40,
         left:22,
-        fontSize:15
+        fontSize:15,
+        fontFamily:"Overlock-Italic",
     },
     estiloTextoFecha:{
         textAlign:"center",
         top:45,
         left:22,
-        fontSize:15
+        fontSize:15,
+        fontFamily:"Overlock-Italic",
     }
 });
 
