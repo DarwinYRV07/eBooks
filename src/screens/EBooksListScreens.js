@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {StyleSheet,Text, Image, FlatList, ScrollView} from 'react-native';
 import backend from "../api/backend";
 import getEnvVars from "../../enviroment";
-import {Input,Container,Item, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2} from "native-base";
+import {Input,Container,Item, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2,Select} from "native-base";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {LinearGradient} from 'expo-linear-gradient';
 
@@ -15,13 +15,13 @@ function EBooksListScreens({navigation}) {
     const [books2,setBooks2] = useState(null)
     const [error, setError] = useState(false);
     const [search, setSearch] = useState("");
-    const [id,setId]=useState("")
+    const [categorie, setCategorie] = useState("");
+    const [id,setId]=useState("");
 
     const getBooks = async () => {
         try {
             const response = await backend.get(`get/?category=arte&criteria=most_viewed`);
             setBooks(response.data);
-            console.log(books);
         }catch (error) {
             setError(true);
         };
@@ -73,8 +73,8 @@ function EBooksListScreens({navigation}) {
                                 />          
             <Header style={styles.eBooksHeader} searchBar >
                 <Item style={styles.estiloBuscador}>
-                    <Input  placeholder="Buscar" value={search} onChangeText={setSearch} />
-                    <Button onPress={() => navigation.navigate('eBooksSearch', {search}) } style={styles.imagenLupa} icon><Icon name="search"color="whirte" /></Button>
+                    <Input name="cine" name={setSearch} placeholder="Buscar" value={search} /*onChangeText={setSearch}*/ />
+                    <Button onPress={() => navigation.navigate('eBooksSearch', {search})} style={styles.imagenLupa} icon><Icon name="search"color="whirte" /></Button>
                 </Item>
             </Header>
 
@@ -130,9 +130,10 @@ function EBooksListScreens({navigation}) {
                             horizontal={true}
                             style={styles.tamañoTarjtas}
                             renderItem={({item}) => {
+                                console.log("aqui es el item   " + books2[0].categories[0].category_id);
                             return (
                                 <View>
-                                    <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID})}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID},{idCategorie: books2[0].categories[0].category_id})}>
                                         <Card>
                                             <CardItem>
                                                 <Body> 
@@ -153,19 +154,19 @@ function EBooksListScreens({navigation}) {
                 <View style={styles.tituloPresentacion2}>
                         <Item >
                             <H2 style={styles.titulos2}>Tenemos algunas categorias! </H2>
-                        </Item>  
+                        </Item>   
                 </View>
 
                 <View style={styles.estiloContenedor}>
                     <View style={styles.estiloCategoria}>
-                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Cine</Text></Button>
-                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Programacion</Text></Button>
-                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Base de dato</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "cine"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Cine</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "Programacion"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Programacion</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "bases_de_datos"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Base de dato</Text></Button>
                     </View>
                     <View style={styles.estiloCategoria}>
-                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Artes</Text></Button>
-                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Comic</Text></Button>
-                        <Button style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Desarrollo Web</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "arte-bellas-artes"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Artes</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "Comic"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Comic</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "desarrollo_web"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18}}>Desarrollo Web</Text></Button>
                     </View>
                 </View>
             </ScrollView>
@@ -203,7 +204,9 @@ const styles = StyleSheet.create({
         left:19,
         width:"100%",
         backgroundColor:"white",
-        borderRadius:20,
+        borderRadius:15,
+        borderWidth:1,
+        borderColor:"black",
     },
     tituloPresentacion1:{
         top:50,
@@ -211,10 +214,10 @@ const styles = StyleSheet.create({
         left:19,
         width:"100%",
         backgroundColor:"white",
-        borderLeftColor: "black",
-        borderTopColor:"black",
-        borderBottomColor:"black",
         borderRadius:20,
+        borderRadius:15,
+        borderWidth:1,
+        borderColor:"black",
     },
     tituloPresentacion2:{
         top:-250,
@@ -223,6 +226,9 @@ const styles = StyleSheet.create({
         width:"90%",
         borderRadius:20,
         backgroundColor:"white",
+        borderRadius:15,
+        borderWidth:1,
+        borderColor:"black",
     },
     titulos:{
         fontSize:18,
@@ -236,31 +242,23 @@ const styles = StyleSheet.create({
     },
 
     iconoMostrar:{
-        borderRadius:20,
+        borderRadius:14,
         backgroundColor: "#835858",
-        left:20,
+        right:-190,
         width:"15%",
         height:35,
         position:"relative",
+        margin:3,
     },
     iconoMostrar1:{
-        borderRadius:20,
+        borderRadius:14,
         backgroundColor: "#835858",
         justifyContent:"center",
-        left:150,
+        left:140,
         width:"15%",
         height:35,
         position:"relative",
-    },
-    iconoMostrar2:{
-        borderRadius:20,
-        backgroundColor: "#835858",
-        justifyContent:"center",
-        left:150,
-        width:"15%",
-        height:35,
-        position:"relative",
-
+        margin:3,
     },
     ubicacion:{
         backgroundColor:"blue",

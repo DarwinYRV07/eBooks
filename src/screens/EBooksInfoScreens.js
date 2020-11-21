@@ -1,12 +1,12 @@
 import React, { useEffect,useState } from "react";
 import backend from "../api/backend";
-import {FlatList, Text, Image, StyleSheet,ScrollView} from 'react-native';
+import {FlatList, Text, Image, StyleSheet,ScrollView, RefreshControlBase, RefreshControl, RefreshControlComponent} from 'react-native';
 import {View,Spinner,Card,CardItem,Body, Item,H2} from "native-base";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 import HTML from 'react-native-render-html';
-import MarqueeText from 'react-native-marquee';
+
 
 
 const EBooksInfoScreens = ({route, navigation}) =>{
@@ -16,6 +16,12 @@ const EBooksInfoScreens = ({route, navigation}) =>{
     const [books, setBooks] = useState(null);
     const [error, setError] = useState(false);
     const [fontsLoaded,setFontsLoaded] = useState(false);
+    const { idCategorie } =route.params;
+
+    console.log("Id categoria "+ idCategorie);
+    console.log("id del libro  "+id);
+    
+
 
     useEffect(() => {
       if(!fontsLoaded){
@@ -41,12 +47,11 @@ const EBooksInfoScreens = ({route, navigation}) =>{
             setError(true);
         };
     };
-
+    
     const getBooks = async () => {
         try {
-            const response = await backend.get(`get/?criteria=most_viewed`);
+            const response = await backend.get(`get/?category_id=212&criteria=most_viewed`);
             setBooks(response.data);
-            console.log(books);
             console.log(`Hola buenas aqui pase`);
         }catch (error) {
             setError(true);
@@ -56,7 +61,10 @@ const EBooksInfoScreens = ({route, navigation}) =>{
     useEffect(() => {
         getInfoBook();
         getBooks();
-    },[TouchableOpacity]);
+    },[id]);
+
+
+    
 
     if (!book) {
         return (
@@ -74,8 +82,6 @@ const EBooksInfoScreens = ({route, navigation}) =>{
         );
     }
     
-    console.log(book[0].title);
-    console.log("Hola");
     return(
    
     <View style={styles.Contenido}>
@@ -92,7 +98,7 @@ const EBooksInfoScreens = ({route, navigation}) =>{
                                 height: 800,
                                 }}
                                 />  
-        <ScrollView style={{}} >
+        <ScrollView style={{margin:1}} >
                     <LinearGradient                                 
                                 colors={['#000000','#463333','#835858']}
                                 start={{ x: 1, y: 1 }}
@@ -120,12 +126,14 @@ const EBooksInfoScreens = ({route, navigation}) =>{
                         <Text style={styles.estiloContenido}>Lenguaje:</Text>
                         <Text style={styles.estiloContenido}>{book[0].language}</Text>
                     </Card>
-
+                    <View style={{justifyContent:"center",display:"flex", alignContent:"center",marginLeft:12,marginRight:2,position:"absolute"}}>
                     <Card style={styles.cardDescripcion}>
                         <Text style={styles.estiloDescripcionTitulo}>Sintaxis</Text>
                         <HTML html={book[0].content_short}/>
                         <Text style={styles.estiloDescripcionContenido}></Text>
-                    </Card>
+                    </Card  >
+                    </View>
+                    
                     <CardItem style={styles.Principal}>
                     <Image  source = {{uri:`${book[0].cover}`}} style={styles.portadaLibros}></Image>              
                     </CardItem>            
@@ -144,28 +152,29 @@ const EBooksInfoScreens = ({route, navigation}) =>{
                 horizontal={true}
                 style={styles.tamañoTarjtas}
                 renderItem={({item}) => {
-                return (
-                    <View>
-                        <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID})}>
-                            <Card>
-                                <CardItem>
-                                    <Body> 
-                                        <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros2}></Image>
-                                        {/*No borrar las imagenes desaparecen*/}
-                                        <Text >                                             </Text>
-                                    </Body>
-                                </CardItem>
-                            </Card>
-                        </TouchableOpacity>
-                    </View>
-                )   
-                }}
-                keyExtractor={(items,index) => index.toString()}
+                        return (
+                            <View>
+                                <TouchableOpacity  onPress={() =>navigation.navigate('eBooksInfo',{id: item.ID})}>
+                                    <Card>
+                                        <CardItem>
+                                            <Body> 
+                                                <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros2}></Image>
+                                                {/*No borrar las imagenes desaparecen*/}
+                                                <Text >                                             </Text>
+                                            </Body>
+                                        </CardItem>
+                                    </Card>
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    
+                    }}
+                    keyExtractor={(items,index) => index.toString()}
             />    
             </View>
-        </ScrollView>     
+        </ScrollView>
+             
     </View>
-
     )
 }
 
@@ -244,13 +253,13 @@ const styles =StyleSheet.create({
     cardDescripcion:{
         width:350,
         top:260,
-        right:7,
+        margin:8,
         position:"absolute",
         borderColor:"transparent",
         backgroundColor:"white", 
         color:"white",
         fontSize:29,
-        height:150,
+        height:"auto",
         borderRadius:10,
     },
 

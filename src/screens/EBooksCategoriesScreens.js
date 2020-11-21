@@ -6,15 +6,17 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
-const EBooksSearchResultScreen = ({route, navigation}) =>{
-    
-    const { search } = route.params;
+const EBooksCategoriesScreens = ({route, navigation}) =>{
+
+    const {categorie} = route.params;
     const [books, setBooks] = useState(null);
     const [error, setError] = useState(false);
 
-    const getSearchbooks = async () => {
+    console.log(categorie);
+
+    const getcategoriebooks = async () => {
         try {
-            const response = await backend.get(`get/?book_title="${search}"`);
+            const response = await backend.get(`get/?category=${categorie}&criteria=most_viewed`);
             setBooks(response.data);
         }catch (error) {
             setError(true);
@@ -22,7 +24,7 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
     };
 
     useEffect(() => {
-        getSearchbooks();
+        getcategoriebooks();
     },[]);
 
     if (!books) {
@@ -105,4 +107,4 @@ const styles =StyleSheet.create({
     }
 });
 
-export default EBooksSearchResultScreen;
+export default EBooksCategoriesScreens;
