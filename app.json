@@ -4,11 +4,11 @@
     "slug": "eBooks",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icono.png",
     "splash": {
-      "image":"./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image":"./assets/Inicio.png",
+      "resizeMode": "center",
+      "backgroundColor": "#FFF0F0"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
