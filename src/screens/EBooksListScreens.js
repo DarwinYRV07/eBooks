@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {StyleSheet,Text, Image, FlatList, ScrollView} from 'react-native';
 import backend from "../api/backend";
-import getEnvVars from "../../enviroment";
-import {Input,Container,Item, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2,Select} from "native-base";
+import {Input,Container,Item, Header,View, Spinner, Card,CardItem, Body, Button, Icon, H2} from "native-base";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 
 
-const {apiCoverUrl,apiCoverSize} = getEnvVars;
 
 function EBooksListScreens({navigation}) {
     //Control de los estados de los libros
@@ -17,15 +15,10 @@ function EBooksListScreens({navigation}) {
     const [error, setError] = useState(false);
     const [fontsLoaded,setFontsLoaded] = useState(false);
     const [search, setSearch] = useState("");
-
     const [id,setId]=useState("");
 
-    useEffect(() => {
-        if(!fontsLoaded){
-          LoadFonts();
-        }
-      });
     
+    //Funcion de la fuente
         const LoadFonts = async() => {
           await Font.loadAsync({
             "Overlock-Black": require(`../../assets/fonts/Overlock-Black.ttf`,),
@@ -34,16 +27,24 @@ function EBooksListScreens({navigation}) {
     
           setFontsLoaded(true);
         }
-  
 
+        useEffect(() => {
+            if(!fontsLoaded){
+              LoadFonts();
+            }
+          });
+  
+    //Llama la api con las categorias de artes mas vistos
     const getBooks = async () => {
         try {
-            const response = await backend.get(`get/?category=arte&criteria=most_viewed`);
+            const response = await backend.get(`get/?criteria=most_viewed`);
             setBooks(response.data);
         }catch (error) {
             setError(true);
         };
     };
+
+    //Llama la api de la a hasta la b los mas vistos
     const getBooks2 = async () =>{
         try{
             const response = await backend.get(`get/?book_title_index=a,b?criteria=most_viewed`);
@@ -88,7 +89,9 @@ function EBooksListScreens({navigation}) {
                                 top: 0,
                                 height: 800,
                                 }}
-                                />          
+                                />
+
+            {/*El encabezado de la pantalla con su respecto buscador */}          
             <Header style={styles.eBooksHeader} searchBar >
                 <Item style={styles.estiloBuscador}>
                     <Input placeholder="Buscar" value={search} onChangeText={setSearch} />
@@ -131,7 +134,11 @@ function EBooksListScreens({navigation}) {
                             renderItem={({item}) => {
                             return (
                                 <View>
-                                    <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID})}>
+                                    {/*llama todas las categorias que tiene el libro*/}
+                                    {/*{console.log("Nombre Categoria: " + item.categories[0].category_id)}*/}
+
+                                    {/*En el onPress se define la categoria para hacer la peticion en la api*/}
+                                    <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID, idCategorie: item.categories[0].category_id})}>
                                         <Card >
                                             <CardItem>
                                                 <Body> 
@@ -176,10 +183,9 @@ function EBooksListScreens({navigation}) {
                             horizontal={true}
                             style={styles.tamañoTarjtas}
                             renderItem={({item}) => {
-                                console.log("aqui es el item   " + books2[0].categories[0].category_id);
                             return (
                                 <View>
-                                    <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID},{idCategorie: books2[0].categories[0].category_id})}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID, idCategorie: item.categories[0].category_id})}>
                                         <Card>
                                             <CardItem>
                                                 <Body> 
@@ -203,6 +209,7 @@ function EBooksListScreens({navigation}) {
                         </Item>   
                 </View>
 
+                {/*Los botones de las categorias con sus diseños*/}
                 <View style={styles.estiloContenedor}>
                     <View style={styles.estiloCategoria}>
                         <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "cine"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18,fontFamily:"Overlock-Black",}}>Cine</Text></Button>
@@ -223,8 +230,7 @@ function EBooksListScreens({navigation}) {
 const styles = StyleSheet.create({
     container:{
         top:0,
-        height: 100,
-        //backgroundColor: "#fff0f0",   
+        height: 100,  
     },
     eBooksHeader:{
         backgroundColor:  "#835858",

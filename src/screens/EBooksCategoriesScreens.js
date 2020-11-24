@@ -12,8 +12,9 @@ const EBooksCategoriesScreens = ({route, navigation}) =>{
     const [books, setBooks] = useState(null);
     const [error, setError] = useState(false);
 
-    console.log(categorie);
+    //console.log(categorie);
 
+    //Peticion para las categorias de los botones
     const getcategoriebooks = async () => {
         try {
             const response = await backend.get(`get/?category=${categorie}&criteria=most_viewed`);
@@ -46,7 +47,7 @@ const EBooksCategoriesScreens = ({route, navigation}) =>{
                         renderItem={({item}) => {
                         return (
                             <View>
-                                <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID})}>
+                                <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID, idCategorie: item.categories[0].category_id})}>
                                     <Card >
                                         <CardItem >
                                         <LinearGradient
@@ -61,10 +62,12 @@ const EBooksCategoriesScreens = ({route, navigation}) =>{
                                             top: 0,
                                             height: 800,
                                             }}
-                                        />      
+                                        />
+                                        {/*La imagen del libro*/}      
                                         <Image  source = {{uri:`${item.cover}`}} style={styles.portadaLibros}></Image>
                                                 {/*No borrar las imagenes desaparecen*/}
                                             <Body style={{backgroundColor:"transparent"}}> 
+                                                {/*El titulo, autor, fecha de edicion del libro*/}
                                                 <Text style={styles.estiloTextoTitulo}>{item.title}</Text>
                                                 <Text style={styles.estiloTextoAutor}>Autor: {item.author} </Text>
                                                 <Text style={styles.estiloTextoFecha}>Fecha de Edicion: {item.publisher_date} </Text>

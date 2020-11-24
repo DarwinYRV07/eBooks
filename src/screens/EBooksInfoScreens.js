@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from "react";
 import backend from "../api/backend";
-import {FlatList, Text, Image, StyleSheet,ScrollView, RefreshControlBase, RefreshControl, RefreshControlComponent} from 'react-native';
+import {FlatList, Text, Image, StyleSheet,ScrollView} from 'react-native';
 import {View,Spinner,Card,CardItem,Body, Item,H2} from "native-base";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -12,47 +12,44 @@ import HTML from 'react-native-render-html';
 const EBooksInfoScreens = ({route, navigation}) =>{
     
     const {id} = route.params;
+    const {idCategorie} = route.params;
     const [book, setBook] = useState(null);
-    const [books, setBooks] = useState(null);
+    const [categorie, setCategorie] = useState(null);
     const [error, setError] = useState(false);
     const [fontsLoaded,setFontsLoaded] = useState(false);
-    const { idCategorie } =route.params;
 
-    console.log("Id categoria "+ idCategorie);
-    console.log("id del libro  "+id);
+    //Solo trae una sola categoria
+    //console.log("Categoria de infro: " +idCategorie)
     
-
-
-    useEffect(() => {
-      if(!fontsLoaded){
-        LoadFonts();
-      }
-    });
-  
-      const LoadFonts = async() => {
+    const LoadFonts = async() => {
         await Font.loadAsync({
           "Overlock-Black": require(`../../assets/fonts/Overlock-Black.ttf`,),
           "Overlock-Italic": require(`../../assets/fonts/Overlock-Italic.ttf`),
         });
   
         setFontsLoaded(true);
-      }
+    }
 
+    useEffect(() => {
+         if(!fontsLoaded){
+             LoadFonts();
+            }
+    });
+
+    
     const getInfoBook = async () => {
         try {
             const response = await backend.get(`get/?id="${id}"`);
             setBook(response.data);
-            console.log(`Hola buenas aqui pase 2`);
         }catch (error) {
             setError(true);
         };
     };
-    
-    const getBooks = async () => {
+
+    const getCategoriess = async () => {
         try {
-            const response = await backend.get(`get/?category_id=212&criteria=most_viewed`);
-            setBooks(response.data);
-            console.log(`Hola buenas aqui pase`);
+            const response = await backend.get(`get/?category_id=${idCategorie}&criteria=most_viewed`);
+            setCategorie(response.data);
         }catch (error) {
             setError(true);
         };
@@ -60,31 +57,34 @@ const EBooksInfoScreens = ({route, navigation}) =>{
 
     useEffect(() => {
         getInfoBook();
-        getBooks();
     },[id]);
 
+    useEffect(()=>{
+        getCategoriess();
+    },[idCategorie]);
 
-    
 
     if (!book) {
         return (
             <View style={{ flex: 1, justifyContent: "center" }}>
-                <Spinner color="#835858" />
+                <Spinner color="#835858"/>
+            </View>
+        );
+    }  
+
+    if (!categorie) {
+        return (
+            <View style={{ flex: 1, justifyContent: "center" }}>
+                <Spinner color="#835858"/>
             </View>
         );
     }
 
-    if (!books) {
-        return (
-            <View style={{ flex: 1, justifyContent: "center" }}>
-                <Spinner color="#835858" />
-            </View>
-        );
-    }
+
     
     return(
-   
     <View style={styles.Contenido}>
+                            {/*El degradado para el fondo*/}
                             <LinearGradient
                                 // Background Linear Gradient
                                 colors={['#fff0f0', '#ebd4d4', '#835858']}
@@ -111,50 +111,60 @@ const EBooksInfoScreens = ({route, navigation}) =>{
                                     marginTop:8,
                                 }}>
                     
+                    {/*El titulo del libro y su respectivo diseño*/}
                     <Card style={styles.cardTitulo}>
                         <Text style={styles.titulo} >{book[0].title}</Text>
                     </Card>
+                    {/*El autor del libro y su respectivo diseño*/}
                     <Card style={styles.cardAutor}>
                         <Text style={styles.estiloContenido}>Autor:</Text>
                         <Text style={styles.estiloContenido} >{book[0].author}</Text>
                     </Card>
+                    {/*La fecha de publicacion del libro y su respectivo diseño*/}
                     <Card style={styles.cardFecha}>
                         <Text style={styles.estiloContenido}>Fecha de Pubicacion</Text>
                         <Text style={styles.estiloContenido}>{book[0].publisher_date}</Text>
                     </Card>
+                    {/*El lenguaje del libro y su respectivo diseño*/}
                     <Card style={styles.cardLenguaje}>
                         <Text style={styles.estiloContenido}>Lenguaje:</Text>
                         <Text style={styles.estiloContenido}>{book[0].language}</Text>
                     </Card>
                     <View style={{justifyContent:"center",display:"flex", alignContent:"center",marginLeft:12,marginRight:2,position:"absolute"}}>
+
+                    {/*La descripcion del libro y su respectivo diseños*/}
                     <Card style={styles.cardDescripcion}>
                         <Text style={styles.estiloDescripcionTitulo}>Sintaxis</Text>
                         <HTML html={book[0].content_short}/>
                         <Text style={styles.estiloDescripcionContenido}></Text>
                     </Card  >
                     </View>
-                    
+
+                    {/*La imagen del libro*/}
                     <CardItem style={styles.Principal}>
                     <Image  source = {{uri:`${book[0].cover}`}} style={styles.portadaLibros}></Image>              
                     </CardItem>            
                     </LinearGradient>
+
+                    {/*El view de titulo*/}
                 <View style={styles.tituloPresentacion1}>
                         <Item style={{height:50,justifyContent:"center"}}>
                             <H2 style={styles.titulos}>Otros Contenidos </H2>
                         </Item>  
                 </View>
 
+                {/*El listado de los libros*/}
             <View style={styles.viewNuevo}>
             <FlatList
                 ListEmptyComponent={<Text>No hay Libros disponibles!</Text>}
-                data={books}
+                data={categorie}
                 key={({item}) => item.ID}
                 horizontal={true}
                 style={styles.tamañoTarjtas}
                 renderItem={({item}) => {
                         return (
                             <View>
-                                <TouchableOpacity  onPress={() =>navigation.navigate('eBooksInfo',{id: item.ID})}>
+                                <TouchableOpacity  onPress={() =>navigation.navigate('eBooksInfo',{id: item.ID, idCategorie: item.categories[0].category_id})}>
                                     <Card>
                                         <CardItem>
                                             <Body> 

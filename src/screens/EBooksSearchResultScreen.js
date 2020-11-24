@@ -13,12 +13,7 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
     const [error, setError] = useState(false);
     const [fontsLoaded,setFontsLoaded] = useState(false);
 
-    useEffect(() => {
-        if(!fontsLoaded){
-          LoadFonts();
-        }
-      });
-    
+        //Funcion del tipo de fuente.
         const LoadFonts = async() => {
           await Font.loadAsync({
             "Overlock-Black": require(`../../assets/fonts/Overlock-Black.ttf`,),
@@ -28,6 +23,13 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
           setFontsLoaded(true);
         }
 
+        useEffect(() => {
+            if(!fontsLoaded){
+              LoadFonts();
+            }
+          });
+
+          //Peticion para buscar el libro
     const getSearchbooks = async () => {
         try {
             const response = await backend.get(`get/?book_title="${search}"`);
@@ -43,7 +45,7 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
 
     if (!books) {
         return (
-            <View style={{ flex: 1, justifyContent: "center" }}>
+            <View style={{ flex: 1, justifyContent:"center"}}>
                 <Spinner color="#835858" />
             </View>
         );
@@ -60,7 +62,7 @@ const EBooksSearchResultScreen = ({route, navigation}) =>{
                         renderItem={({item}) => {
                         return (
                             <View>
-                                <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID})}>
+                                <TouchableOpacity onPress={() => navigation.navigate('eBooksInfo',{id: item.ID,idCategorie: item.categories[0].category_id})}>
                                     <Card >
                                         <CardItem >
                                         <LinearGradient
