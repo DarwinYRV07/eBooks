@@ -122,7 +122,7 @@ const EBooksInfoScreens = ({route, navigation}) =>{
                     </Card>
                     {/*La fecha de publicacion del libro y su respectivo diseño*/}
                     <Card style={styles.cardFecha}>
-                        <Text style={styles.estiloContenido}>Fecha de Pubicacion</Text>
+                        <Text style={styles.estiloContenido}>Fecha de Pubicación</Text>
                         <Text style={styles.estiloContenido}>{book[0].publisher_date}</Text>
                     </Card>
                     {/*El lenguaje del libro y su respectivo diseño*/}
@@ -149,7 +149,7 @@ const EBooksInfoScreens = ({route, navigation}) =>{
                     {/*El view de titulo*/}
                 <View style={styles.tituloPresentacion1}>
                         <Item style={{height:50,justifyContent:"center"}}>
-                            <H2 style={styles.titulos}>Otros Contenidos </H2>
+                            <H2 style={styles.titulos}>Otros Contenidos</H2>
                         </Item>  
                 </View>
 

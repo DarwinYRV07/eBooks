@@ -70,7 +70,7 @@ const EBooksCategoriesScreens = ({route, navigation}) =>{
                                                 {/*El titulo, autor, fecha de edicion del libro*/}
                                                 <Text style={styles.estiloTextoTitulo}>{item.title}</Text>
                                                 <Text style={styles.estiloTextoAutor}>Autor: {item.author} </Text>
-                                                <Text style={styles.estiloTextoFecha}>Fecha de Edicion: {item.publisher_date} </Text>
+                                                <Text style={styles.estiloTextoFecha}>Fecha de Edición: {item.publisher_date} </Text>
                                             </Body>
                                         </CardItem>
                                     </Card>

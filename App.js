@@ -15,8 +15,8 @@ export default function App() {
       <Stack.Navigator initialRouteName="eBooksList">
         <Stack.Screen name="eBooksList" component={EBooksListScreens} options={{headerShown:false}} />
         <Stack.Screen name="eBooksSearch" component={EBooksSearchResultScreen} options={{title:"Resultados",headerStyle:{backgroundColor:"#835858"},headerTintColor:"white"}}/>
-        <Stack.Screen name="eBooksInfo" component={EBooksInfoScreen} options={{title:"Informacion",headerStyle:{backgroundColor:"#835858"},headerTintColor:"white"}}/>
-        <Stack.Screen name="eBooksCategorie" component={EBooksCategoriesScreens} options={{title:"Categorias",headerStyle:{backgroundColor:"#835858"},headerTintColor:"white"}}/>
+        <Stack.Screen name="eBooksInfo" component={EBooksInfoScreen} options={{title:"Información",headerStyle:{backgroundColor:"#835858"},headerTintColor:"white"}}/>
+        <Stack.Screen name="eBooksCategorie" component={EBooksCategoriesScreens} options={{title:"Categorías",headerStyle:{backgroundColor:"#835858"},headerTintColor:"white"}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

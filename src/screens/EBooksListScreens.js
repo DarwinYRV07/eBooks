@@ -205,7 +205,7 @@ function EBooksListScreens({navigation}) {
                 </View >
                 <View style={styles.tituloPresentacion2}>
                         <Item >
-                            <H2 style={styles.titulos2}>Tenemos algunas categorias! </H2>
+                            <H2 style={styles.titulos2}>Tenemos algunas categorías! </H2>
                         </Item>   
                 </View>
 
@@ -213,7 +213,7 @@ function EBooksListScreens({navigation}) {
                 <View style={styles.estiloContenedor}>
                     <View style={styles.estiloCategoria}>
                         <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "cine"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18,fontFamily:"Overlock-Black",}}>Cine</Text></Button>
-                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "Programacion"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18,fontFamily:"Overlock-Black",}}>Programacion</Text></Button>
+                        <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "Programacion"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18,fontFamily:"Overlock-Black",}}>Programación</Text></Button>
                         <Button onPress={() => navigation.navigate('eBooksCategorie',{categorie: "bases_de_datos"})} style={styles.estiloBotonCategoria}><Text style={{fontSize:18,fontFamily:"Overlock-Black",}}>Base de dato</Text></Button>
                     </View>
                     <View style={styles.estiloCategoria}>
